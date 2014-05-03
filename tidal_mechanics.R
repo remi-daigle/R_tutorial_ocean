@@ -18,9 +18,9 @@ rm(list=ls())          # REMEMBER THIS! Also, you can put comments in after each
 ###################### model 1: simple tide model - the effect of the moon (M2) #################################
 
 ### set M2 model parameters - the effect of the moon (M2) ###
-period = 12.41667                   # the tidal period in hours (period for M2 is 12.41667 h)
-max_height = 5                      # the maximum tidal height
-omega = 2*pi/period                 # the angular frequency (R already knows the value of pi)
+period <- 12.41667                   # the tidal period in hours (period for M2 is 12.41667 h)
+max_height <- 5                      # the maximum tidal height
+omega <- 2*pi/period                 # the angular frequency (R already knows the value of pi)
 
 
 # Look at the Environment tab (top right),
@@ -30,15 +30,15 @@ omega = 2*pi/period                 # the angular frequency (R already knows the
 
 
 ### create data frame ###
-t = c(0:720)                      # create vector for time 0 to 720 h
-heightM2 = rep(0,length(t))       # create an empty vector (full of zeros) for tidal height, we will calculate these in the next step
+t <- 0:720                      # create vector for time 0 to 720 h
+heightM2 <- rep(0,length(t))       # create an empty vector (full of zeros) for tidal height, we will calculate these in the next step
 
 # If you need to find help on rep(), you can go right to the Help tab (bottom right) and type it in
 # or you can type ?rep() or ??rep() into the console (bottom left) to get help on the rep() function
 # Finally, the most convenient way to get help is simply to left click on the function once and hit F1
 
-matrix = cbind(t = t, heightM2 = heightM2)
-dataframe = as.data.frame(matrix)
+matrix <- cbind(t = t, heightM2 = heightM2)
+dataframe <- as.data.frame(matrix)
 View(dataframe)                   # or click on the object "dataframe" in the Environment tab (top right)
 
 # Did you notice that the "matrix" and the "dataframe" look the same when you View() them?
@@ -62,13 +62,16 @@ dataframe$heightM2[1] # calls the 1st row of the 2nd column (which is the variab
 ### calculate tidal height
 # "for loops" are amazingly powerful, in this case we are calculating the M2 tidal height for each row
 # see help section for for(), you need to understand what's going on here before going ahead
-for(h in t){
-  row_num=h+1
-  dataframe$heightM2[row_num]=max_height*sin(omega*t[row_num])
+for(i in seq_along(t)){
+  dataframe$heightM2[i]<-max_height*sin(omega*t[i])
 }
 
-# PROTIP: for loops are powerful, but not computationally efficient
-# the "apply" family of functions are even better, particularly for large data sets
+# PROTIP: for() loops are powerful, but not computationally efficient
+# the "apply" family of functions are often better, particularly for large data sets
+# in this particular case, we didn't actually need to assign values row by row
+# the function sin() can handle input as a vector; therefore, we could have used:
+# dataframe$heightM2<-max_height*sin(omega*t)
+# but I want to show you a for() loop, they will come in handy later!
 
 
 # plot your results
@@ -76,22 +79,21 @@ plot(dataframe$t,dataframe$heightM2)                          # basic plot
 # the default plot is hard to read
 plot(dataframe$t,dataframe$heightM2,"l")                      # line plot
 # the line plot has too much data for now
-plot(dataframe$t,dataframe$heightM2,"l",xlim=c(0,48))         # line plot with limits on the x-axis
+plot(dataframe$t,dataframe$heightM2,"l",xlim<-c(0,48))         # line plot with limits on the x-axis
 
 
 ###################### model 2: simple tide model - the effect of the sun (S2) ################################
 
 ### set S2 model parameters - the effect of the sun (S2)###
-period = 12                         # the tidal period in hours (period for S2 is 12 h)
-max_height = 2                      # the maximum tidal height
-omega = 2*pi/period                 # the angular frequency
+period <- 12                         # the tidal period in hours (period for S2 is 12 h)
+max_height <- 2                      # the maximum tidal height
+omega <- 2*pi/period                 # the angular frequency
 
-dataframe$heightS2=0                # add an empty (full of zeros) variable to the data frame
+dataframe$heightS2<-heightM2                # add an empty (full of zeros) variable to the data frame
 
 ### calculate tidal height
-for(h in t){
-  index=h+1
-  dataframe$heightS2[index]=max_height*sin(omega*t[index])
+for(i in seq_along(t)){
+  dataframe$heightS2[i]<-max_height*sin(omega*t[i])
 }
 
 
@@ -103,7 +105,7 @@ legend(43,5,c("M2","S2"),lty=c("solid","dashed"))      # you can also add a lege
 ###################### model 3: multi-component tide model - M2+S2 ################################
 
 ### calculate tidal height
-dataframe$heightM2S2=dataframe$heightM2+dataframe$heightS2
+dataframe$heightM2S2<-dataframe$heightM2+dataframe$heightS2
 
 # plot your results
 plot(dataframe$t,dataframe$heightM2S2,"l",col="purple")
