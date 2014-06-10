@@ -1,3 +1,5 @@
+# This exercise was inspired by an MS Excel based exercise developed by Diego Ibarra
+
 # IMPORTANT: Anything starting with a hashmark ("#") is a "Comment"
 # These comments are not used by the computer, so you can write in plain English (or French, or Dothraki!)
 # Comments are intended to help humans understand what the script is supposed to do
