@@ -21,7 +21,7 @@ rm(list=ls())          # REMEMBER THIS! Also, you can put comments in after each
 
 ### set model parameters
 period <- 12                         # the tidal period in hours
-max_height <- 5                      # the maximum tidal height
+max_height <- 10                      # the maximum tidal height
 omega <- 2*pi/period                 # the angular frequency (R already knows the value of pi)
 
 
@@ -89,7 +89,7 @@ plot(dataframe$t,dataframe$height,"l",xlim<-c(0,48))         # line plot with li
 
 ### set M2 model parameters - the effect of the moon (M2) ###
 period <- 12.41667                   # the tidal period in hours (period for M2 is 12.41667 h)
-max_height <- 5                      # the maximum tidal height
+max_height <- 10                      # the maximum tidal height
 omega <- 2*pi/period                 # the angular frequency (R already knows the value of pi)
 
 dataframe$heightM2<-height                # add an empty (full of zeros) variable to the data frame
@@ -108,7 +108,7 @@ plot(dataframe$t,dataframe$heightM2,"l",xlim=c(0,48))
 
 ### set S2 model parameters - the effect of the sun (S2)###
 period <- 12                         # the tidal period in hours (period for S2 is 12 h)
-max_height <- 2                      # the maximum tidal height
+max_height <- 4.6                      # the maximum tidal height
 omega <- 2*pi/period                 # the angular frequency
 
 dataframe$heightS2<-height                # add an empty (full of zeros) variable to the data frame
